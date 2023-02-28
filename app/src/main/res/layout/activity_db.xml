@@ -16,29 +16,13 @@
 
         <TableRow>
             <TextView
-                android:text="User Id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:text="Description" />
 
             <EditText
-                android:id="@+id/u_id"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:layout_marginStart="20sp"
-                android:width="150px" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:text="User Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1" />
-
-            <EditText
-                android:id="@+id/u_name"
+                android:id="@+id/t_desc"
                 android:width="200dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,13 +33,30 @@
 
         <TableRow>
             <TextView
-                android:text="User Email"
+                android:text="State"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1" />
 
             <EditText
-                android:id="@+id/u_email"
+                android:id="@+id/t_state"
+                android:width="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_marginStart="20sp"
+                android:layout_marginLeft="20sp" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1" />
+
+            <EditText
+                android:id="@+id/t_date"
                 android:width="200dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
