@@ -6,69 +6,71 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
-import fr.unilim.iut.todolist.classes.EmpModelClass
+import fr.unilim.iut.todolist.classes.Task
 
 //creating the database logic, extending the SQLiteOpenHelper base class
 class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
     companion object {
         private val DATABASE_VERSION = 1
         private val DATABASE_NAME = "EmployeeDatabase"
-        private val TABLE_CONTACTS = "EmployeeTable"
+        private val TABLE_TASK = "EmployeeTable"
         private val KEY_ID = "id"
-        private val KEY_NAME = "name"
-        private val KEY_EMAIL = "email"
+        private val KEY_DESC = "desc"
+        private val KEY_STATE = "state"
+        private val KEY_DATE = "date"
     }
     override fun onCreate(db: SQLiteDatabase?) {
         // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         //creating table with fields
-        val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_EMAIL + " TEXT" + ")")
+        val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_TASK + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DESC + " TEXT,"
+                + KEY_STATE + " TEXT," + KEY_DATE + " TEXT" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         //  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS)
+        db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK)
         onCreate(db)
     }
     //method to insert data
-    fun addEmployee(emp: EmpModelClass):Long{
+    fun addEmployee(emp: Task):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.userId)
-        contentValues.put(KEY_NAME, emp.userName) // EmpModelClass Name
-        contentValues.put(KEY_EMAIL,emp.userEmail ) // EmpModelClass Phone
+        contentValues.put(KEY_ID, emp.getID())
+        contentValues.put(KEY_DESC, emp.getDesc())
+        contentValues.put(KEY_STATE,emp.getState())
+        contentValues.put(KEY_DATE, emp.getDate())
         // Inserting Row
-        val success = db.insert(TABLE_CONTACTS, null, contentValues)
+        val success = db.insert(TABLE_TASK, null, contentValues)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
     }
     //method to read data
-    fun viewEmployee():List<EmpModelClass>{
-        val empList:ArrayList<EmpModelClass> = ArrayList<EmpModelClass>()
-        val selectQuery = "SELECT  * FROM $TABLE_CONTACTS"
+    fun viewEmployee():List<Task>{
+        val empList:ArrayList<Task> = ArrayList<Task>()
+        val selectQuery = "SELECT  * FROM $TABLE_TASK"
         val db = this.readableDatabase
         var cursor: Cursor? = null
         try{
             cursor = db.rawQuery(selectQuery, null)
-        }catch (e: SQLiteException) {
+        } catch (e: SQLiteException) {
             db.execSQL(selectQuery)
             return ArrayList()
         }
-        var userId: Int
-        var userName: String
-        var userEmail: String
+        var desc: String
+        var state: String
+        var date: Long
         if (cursor.moveToFirst()) {
             do {
-                userId = cursor.getInt(cursor.getColumnIndex("id"))
-                userName = cursor.getString(cursor.getColumnIndex("name"))
-                userEmail = cursor.getString(cursor.getColumnIndex("email"))
-                val emp= EmpModelClass(
-                    userId = userId,
-                    userName = userName,
-                    userEmail = userEmail
+                desc = cursor.getString(cursor.getColumnIndex("desc"))
+                state = cursor.getString(cursor.getColumnIndex("state"))
+                date = cursor.getLong(cursor.getColumnIndex("date"))
+                val emp= Task(
+                    description = desc,
+                    state = state,
+                    date = date
                 )
                 empList.add(emp)
             } while (cursor.moveToNext())
@@ -76,26 +78,27 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         return empList
     }
     //method to update data
-    fun updateEmployee(emp: EmpModelClass):Int{
+    fun updateEmployee(emp: Task):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.userId)
-        contentValues.put(KEY_NAME, emp.userName) // EmpModelClass Name
-        contentValues.put(KEY_EMAIL,emp.userEmail ) // EmpModelClass Email
+        contentValues.put(KEY_ID, emp.getID())
+        contentValues.put(KEY_DESC, emp.getDesc())
+        contentValues.put(KEY_STATE,emp.getState())
+        contentValues.put(KEY_DATE, emp.getDate())
 
         // Updating Row
-        val success = db.update(TABLE_CONTACTS, contentValues,"id="+emp.userId,null)
+        val success = db.update(TABLE_TASK, contentValues,"id="+emp.getID(),null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
     }
     //method to delete data
-    fun deleteEmployee(emp: EmpModelClass):Int{
+    fun deleteEmployee(emp: Task):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.userId) // EmpModelClass UserId
+        contentValues.put(KEY_ID, emp.getID()) // EmpModelClass UserId
         // Deleting Row
-        val success = db.delete(TABLE_CONTACTS,"id="+emp.userId,null)
+        val success = db.delete(TABLE_TASK,"id="+emp.getID(),null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success

@@ -13,16 +13,23 @@
         android:hint="enter id" />
 
     <EditText
-        android:id="@+id/updateName"
+        android:id="@+id/updateDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="enter name"/>
+        android:hint="enter desc"/>
 
     <EditText
-        android:id="@+id/updateEmail"
+        android:id="@+id/updateState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="enter email"/>
+        android:hint="enter state"/>
+
+    <EditText
+        android:id="@+id/updateDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="enter date"/>
 </LinearLayout>
