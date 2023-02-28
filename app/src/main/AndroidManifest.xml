@@ -15,7 +15,9 @@
             android:name=".DBActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Dashboard"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:label="Dashboard"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

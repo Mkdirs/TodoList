@@ -17,4 +17,5 @@
     <style name="Theme.SplashScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/logo</item>
     </style>
+
 </resources>
