@@ -16,10 +16,27 @@
 
         <TableRow>
             <TextView
+                android:text="Id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:text="Description" />
+                android:layout_column="1" />
+
+            <EditText
+                android:id="@+id/t_id"
+                android:width="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_marginStart="20sp"
+                android:layout_marginLeft="20sp" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1" />
 
             <EditText
                 android:id="@+id/t_desc"

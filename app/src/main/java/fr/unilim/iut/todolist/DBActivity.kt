@@ -19,26 +19,29 @@ class DBActivity : AppCompatActivity() {
     }
     //method for saving records in database
     fun saveRecord(view: View){
+        val id = findViewById<EditText>(R.id.t_id).text.toString()
         val desc = findViewById<EditText>(R.id.t_desc).text.toString()
         val state = findViewById<EditText>(R.id.t_state).text.toString()
         val date = findViewById<EditText>(R.id.t_date).text.toString()
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
-        if(date.trim()!="" && desc.trim()!="" && state.trim()!=""){
+        if(id.trim()!="" && date.trim()!="" && desc.trim()!="" && state.trim()!=""){
             val status = databaseHandler.addEmployee(
                 Task(
-                    desc,
-                    state,
-                    date.toLong()
+                    id.trim().toInt(),
+                    desc.trim(),
+                    state.trim(),
+                    date.trim().toLong()
                 )
             )
             if(status > -1){
                 Toast.makeText(applicationContext,"record save",Toast.LENGTH_LONG).show()
+                findViewById<EditText>(R.id.t_id).text.clear()
                 findViewById<EditText>(R.id.t_desc).text.clear()
                 findViewById<EditText>(R.id.t_state).text.clear()
                 findViewById<EditText>(R.id.t_date).text.clear()
             }
         }else{
-            Toast.makeText(applicationContext,"desc or state or date cannot be blank",Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext,"one entry is blank !",Toast.LENGTH_LONG).show()
         }
     }
     //method for read records from database in ListView
@@ -53,10 +56,10 @@ class DBActivity : AppCompatActivity() {
         val empArrayDate = Array<String>(emp.size){"0"}
         var index = 0
         for(e in emp){
-            empArrayDate[index] = e.getID().toString()
-            empArrayDesc[index] = e.getDesc()
-            empArrayState[index] = e.getState()
-            empArrayDate[index] = e.getDate().toString()
+            empArrayId[index] = e.id.toString()
+            empArrayDesc[index] = e.desc
+            empArrayState[index] = e.state
+            empArrayDate[index] = e.date.toString()
             index++
         }
         //creating custom ArrayAdapter
@@ -95,6 +98,7 @@ class DBActivity : AppCompatActivity() {
                 //calling the updateEmployee method of DatabaseHandler class to update record
                 val status = databaseHandler.updateEmployee(
                     Task(
+                        updateId.toInt(),
                         updateDesc,
                         updateState,
                         updateDate.toLong()
@@ -134,6 +138,7 @@ class DBActivity : AppCompatActivity() {
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
                 val status = databaseHandler.deleteEmployee(
                     Task(
+                        Integer.parseInt(deleteId),
                         "",
                         "",
                         0
