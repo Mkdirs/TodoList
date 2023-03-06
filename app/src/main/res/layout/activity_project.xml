@@ -5,17 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard">
+    tools:context=".ProjectActivity">
 
     <ListView
-        android:id="@+id/project_list_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/db_button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
-        />
+        android:id="@+id/tasks_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
 
     <include
         layout="@layout/add_button"
@@ -26,11 +22,4 @@
         android:layout_marginBottom="50dp"
         android:layout_marginRight="30dp"/>
 
-    <Button
-        android:id="@+id/db_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test_db"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
