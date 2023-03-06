@@ -19,15 +19,14 @@ class DBActivity : AppCompatActivity() {
     }
     //method for saving records in database
     fun saveRecord(view: View){
-        val id = findViewById<EditText>(R.id.t_id).text.toString()
         val desc = findViewById<EditText>(R.id.t_desc).text.toString()
         val state = findViewById<EditText>(R.id.t_state).text.toString()
         val date = findViewById<EditText>(R.id.t_date).text.toString()
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
-        if(id.trim()!="" && date.trim()!="" && desc.trim()!="" && state.trim()!=""){
+        if(date.trim()!="" && desc.trim()!="" && state.trim()!=""){
             val status = databaseHandler.addEmployee(
                 Task(
-                    id.trim().toInt(),
+                    0,
                     desc.trim(),
                     state.trim(),
                     date.trim().toLong()
@@ -35,7 +34,6 @@ class DBActivity : AppCompatActivity() {
             )
             if(status > -1){
                 Toast.makeText(applicationContext,"record save",Toast.LENGTH_LONG).show()
-                findViewById<EditText>(R.id.t_id).text.clear()
                 findViewById<EditText>(R.id.t_desc).text.clear()
                 findViewById<EditText>(R.id.t_state).text.clear()
                 findViewById<EditText>(R.id.t_date).text.clear()

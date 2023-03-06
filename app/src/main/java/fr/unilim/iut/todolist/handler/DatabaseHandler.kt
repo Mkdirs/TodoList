@@ -21,10 +21,9 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     }
     override fun onCreate(db: SQLiteDatabase?) {
         // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        // TODO : INTEGER PRIMARY KEY AUTOINCREMENT
         //creating table with fields
         val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_TASK + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DESC + " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_DESC + " TEXT,"
                 + KEY_STATE + " TEXT," + KEY_DATE + " TEXT" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
@@ -38,7 +37,6 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun addEmployee(emp: Task):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.id)
         contentValues.put(KEY_DESC, emp.desc)
         contentValues.put(KEY_STATE,emp.state)
         contentValues.put(KEY_DATE, emp.date)
