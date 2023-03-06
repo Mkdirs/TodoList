@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Toast
 import java.util.*
 
 public const val PROJECT_NAME = "PROJECT_NAME"
@@ -23,6 +25,11 @@ class Dashboard : AppCompatActivity() {
                 putExtra(PROJECT_NAME, listView.getItemAtPosition(position) as String)
             }
             startActivity(intent)
+        }
+
+        val addButtonImgView = findViewById<ImageView>(R.id.add_button_image_view)
+        addButtonImgView.setOnClickListener {
+            Toast.makeText(this, "TODO: ajout nouveau projet", Toast.LENGTH_SHORT).show()
         }
 
 

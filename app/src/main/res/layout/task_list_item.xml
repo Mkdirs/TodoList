@@ -2,61 +2,92 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:paddingHorizontal="10dp"
+    android:layout_height="wrap_content"
     android:background="#BBB4B4">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
+    <RelativeLayout
+        android:id="@+id/task_list_item.task"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:paddingHorizontal="10dp"
         android:layout_alignParentTop="true"
-        android:gravity="center">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
 
-        <CheckBox
-            android:id="@+id/task_list_item.checkbox"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"/>
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/task_list_item.title"
+            <ImageView
+                android:id="@+id/task_list_item.dropdown_arrow"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/arrow"/>
+
+            <CheckBox
+                android:id="@+id/task_list_item.checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"/>
+
+
+            <TextView
+                android:id="@+id/task_list_item.title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Title"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Title"/>
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/task_list_item.status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/black"
+                android:text="Status"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center">
+            <ImageView
+                android:id="@+id/task_list_item.edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/edit"/>
 
-        <TextView
-            android:id="@+id/task_list_item.status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:textColor="@color/black"
-            android:text="Status"/>
+            <ImageView
+                android:id="@+id/task_list_item.delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/delete"/>
 
-        <ImageView
-            android:id="@+id/task_list_item.edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/edit"/>
+        </LinearLayout>
+    </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/task_list_item.delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/delete"/>
 
-    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/task_list_item.subtasks"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_list_item.task"
+        android:layout_marginVertical="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>
