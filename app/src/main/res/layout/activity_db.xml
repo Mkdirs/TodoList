@@ -16,10 +16,10 @@
 
         <TableRow>
             <TextView
+                android:text="Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:text="Description" />
+                android:layout_column="1" />
 
             <EditText
                 android:id="@+id/t_desc"

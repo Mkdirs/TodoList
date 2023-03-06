@@ -12,8 +12,8 @@ import fr.unilim.iut.todolist.classes.Task
 class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
     companion object {
         private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "EmployeeDatabase"
-        private val TABLE_TASK = "EmployeeTable"
+        private val DATABASE_NAME = "TodoDatabase"
+        private val TABLE_TASK = "TodoTable"
         private val KEY_ID = "id"
         private val KEY_DESC = "desc"
         private val KEY_STATE = "state"
@@ -23,7 +23,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         //creating table with fields
         val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_TASK + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_DESC + " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_DESC + " TEXT,"
                 + KEY_STATE + " TEXT," + KEY_DATE + " TEXT" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
@@ -37,10 +37,9 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun addEmployee(emp: Task):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.getID())
-        contentValues.put(KEY_DESC, emp.getDesc())
-        contentValues.put(KEY_STATE,emp.getState())
-        contentValues.put(KEY_DATE, emp.getDate())
+        contentValues.put(KEY_DESC, emp.desc)
+        contentValues.put(KEY_STATE,emp.state)
+        contentValues.put(KEY_DATE, emp.date)
         // Inserting Row
         val success = db.insert(TABLE_TASK, null, contentValues)
         //2nd argument is String containing nullColumnHack
@@ -59,16 +58,19 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
             db.execSQL(selectQuery)
             return ArrayList()
         }
+        var id: Int
         var desc: String
         var state: String
         var date: Long
         if (cursor.moveToFirst()) {
             do {
+                id = cursor.getInt(cursor.getColumnIndex("id"))
                 desc = cursor.getString(cursor.getColumnIndex("desc"))
                 state = cursor.getString(cursor.getColumnIndex("state"))
                 date = cursor.getLong(cursor.getColumnIndex("date"))
                 val emp= Task(
-                    description = desc,
+                    id = id,
+                    desc = desc,
                     state = state,
                     date = date
                 )
@@ -81,13 +83,13 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun updateEmployee(emp: Task):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.getID())
-        contentValues.put(KEY_DESC, emp.getDesc())
-        contentValues.put(KEY_STATE,emp.getState())
-        contentValues.put(KEY_DATE, emp.getDate())
+        contentValues.put(KEY_ID, emp.id)
+        contentValues.put(KEY_DESC, emp.desc)
+        contentValues.put(KEY_STATE,emp.state)
+        contentValues.put(KEY_DATE, emp.date)
 
         // Updating Row
-        val success = db.update(TABLE_TASK, contentValues,"id="+emp.getID(),null)
+        val success = db.update(TABLE_TASK, contentValues,"id="+emp.id,null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
@@ -96,9 +98,9 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
     fun deleteEmployee(emp: Task):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, emp.getID()) // EmpModelClass UserId
+        contentValues.put(KEY_ID, emp.id) // EmpModelClass UserId
         // Deleting Row
-        val success = db.delete(TABLE_TASK,"id="+emp.getID(),null)
+        val success = db.delete(TABLE_TASK,"id="+emp.id,null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success

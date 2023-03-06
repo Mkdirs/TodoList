@@ -26,9 +26,10 @@ class DBActivity : AppCompatActivity() {
         if(date.trim()!="" && desc.trim()!="" && state.trim()!=""){
             val status = databaseHandler.addEmployee(
                 Task(
-                    desc,
-                    state,
-                    date.toLong()
+                    0,
+                    desc.trim(),
+                    state.trim(),
+                    date.trim().toLong()
                 )
             )
             if(status > -1){
@@ -38,7 +39,7 @@ class DBActivity : AppCompatActivity() {
                 findViewById<EditText>(R.id.t_date).text.clear()
             }
         }else{
-            Toast.makeText(applicationContext,"desc or state or date cannot be blank",Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext,"one entry is blank !",Toast.LENGTH_LONG).show()
         }
     }
     //method for read records from database in ListView
@@ -53,10 +54,10 @@ class DBActivity : AppCompatActivity() {
         val empArrayDate = Array<String>(emp.size){"0"}
         var index = 0
         for(e in emp){
-            empArrayDate[index] = e.getID().toString()
-            empArrayDesc[index] = e.getDesc()
-            empArrayState[index] = e.getState()
-            empArrayDate[index] = e.getDate().toString()
+            empArrayId[index] = e.id.toString()
+            empArrayDesc[index] = e.desc
+            empArrayState[index] = e.state
+            empArrayDate[index] = e.date.toString()
             index++
         }
         //creating custom ArrayAdapter
@@ -95,6 +96,7 @@ class DBActivity : AppCompatActivity() {
                 //calling the updateEmployee method of DatabaseHandler class to update record
                 val status = databaseHandler.updateEmployee(
                     Task(
+                        updateId.toInt(),
                         updateDesc,
                         updateState,
                         updateDate.toLong()
@@ -134,6 +136,7 @@ class DBActivity : AppCompatActivity() {
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
                 val status = databaseHandler.deleteEmployee(
                     Task(
+                        Integer.parseInt(deleteId),
                         "",
                         "",
                         0
