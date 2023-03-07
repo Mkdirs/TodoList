@@ -22,11 +22,12 @@
             android:layout_centerVertical="true"
             android:gravity="center">
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/task_list_item.dropdown_arrow"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/arrow"/>
+                -->
 
             <CheckBox
                 android:id="@+id/task_list_item.checkbox"
@@ -79,7 +80,7 @@
 
 
 
-    <ListView
+    <!--<ListView
         android:id="@+id/task_list_item.subtasks"
         android:visibility="gone"
         android:layout_width="match_parent"
@@ -88,6 +89,7 @@
         android:layout_marginVertical="20dp"
         android:layout_marginLeft="40dp"
         android:layout_alignParentRight="true"/>
+        -->
 
 
 </RelativeLayout>

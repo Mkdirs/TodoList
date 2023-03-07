@@ -1,6 +1,6 @@
 package fr.unilim.iut.todolist.classes;
 
-class Task (
+data class Task (
     var id: Int,
     val desc: String,
     val state: String,

@@ -19,14 +19,26 @@ class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context
 
         val task = getItem(position)
 
-        val dropdown = view.findViewById<ImageView>(R.id.task_list_item_dropdown_arrow)
+        /*val dropdown = view.findViewById<ImageView>(R.id.task_list_item_dropdown_arrow)
         dropdown.setOnClickListener {
 
             it.rotation = if(it.rotation == 90f) 0f else 90f
         }
 
+         */
+
         val checkbox = view.findViewById<CheckBox>(R.id.task_list_item_checkbox)
         checkbox.isChecked = task?.state == context.getString(R.string.task_status_finished)
+
+        checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            /*
+            TODO: modifier l'état de la tâche
+                - Modifier la tâche sur la base de donnée
+                - Remplacer l'ancienne tâche par la nouvelle
+
+             */
+
+        }
 
         view.findViewById<TextView>(R.id.task_list_item_title).text = task?.desc
         view.findViewById<TextView>(R.id.task_list_item_status).also {
@@ -38,6 +50,12 @@ class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context
                 context.getString(R.string.task_status_overdue) -> it.setTextColor(context.resources.getColor(R.color.red, null))
 
             }
+        }
+
+        view.findViewById<ImageView>(R.id.task_list_item_delete).setOnClickListener {
+            remove(task)
+            //TODO: supprimer la tâche de la BDD
+            notifyDataSetChanged()
         }
 
 
