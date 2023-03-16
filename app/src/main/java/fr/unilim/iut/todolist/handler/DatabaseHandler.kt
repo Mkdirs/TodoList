@@ -24,7 +24,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         //creating table with fields
         val CREATE_CONTACTS_TABLE = ("CREATE TABLE " + TABLE_TASK + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_DESC + " TEXT,"
-                + KEY_STATE + " TEXT," + KEY_DATE + " TEXT" + ")")
+                + KEY_STATE + " INTEGER," + KEY_DATE + " DATE" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
 
@@ -60,14 +60,14 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         }
         var id: Int
         var desc: String
-        var state: String
-        var date: Long
+        var state: Int
+        var date: String
         if (cursor.moveToFirst()) {
             do {
                 id = cursor.getInt(cursor.getColumnIndex("id"))
                 desc = cursor.getString(cursor.getColumnIndex("desc"))
-                state = cursor.getString(cursor.getColumnIndex("state"))
-                date = cursor.getLong(cursor.getColumnIndex("date"))
+                state = cursor.getInt(cursor.getColumnIndex("state"))
+                date = cursor.getString(cursor.getColumnIndex("date"))
                 val emp= Task(
                     id = id,
                     desc = desc,

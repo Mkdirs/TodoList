@@ -1,16 +1,20 @@
 package fr.unilim.iut.todolist
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.content.DialogInterface
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
-import android.content.DialogInterface
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import fr.unilim.iut.todolist.adapter.MyListAdapter
 import fr.unilim.iut.todolist.classes.Task
 import fr.unilim.iut.todolist.handler.DatabaseHandler
+
 
 class DBActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +32,8 @@ class DBActivity : AppCompatActivity() {
                 Task(
                     0,
                     desc.trim(),
-                    state.trim(),
-                    date.trim().toLong()
+                    0,
+                    date.trim(),
                 )
             )
             if(status > -1){
@@ -51,13 +55,13 @@ class DBActivity : AppCompatActivity() {
         val empArrayId = Array<String>(emp.size){"0"}
         val empArrayDesc = Array<String>(emp.size){"null"}
         val empArrayState = Array<String>(emp.size){"null"}
-        val empArrayDate = Array<String>(emp.size){"0"}
+        val empArrayDate = Array<String>(emp.size){"null"}
         var index = 0
         for(e in emp){
             empArrayId[index] = e.id.toString()
             empArrayDesc[index] = e.desc
-            empArrayState[index] = e.state
-            empArrayDate[index] = e.date.toString()
+            empArrayState[index] = e.state.toString()
+            empArrayDate[index] = e.date
             index++
         }
         //creating custom ArrayAdapter
@@ -98,8 +102,8 @@ class DBActivity : AppCompatActivity() {
                     Task(
                         updateId.toInt(),
                         updateDesc,
-                        updateState,
-                        updateDate.toLong()
+                        updateState.toInt(),
+                        updateDate,
                     )
                 )
                 if(status > -1){
@@ -138,8 +142,8 @@ class DBActivity : AppCompatActivity() {
                     Task(
                         Integer.parseInt(deleteId),
                         "",
+                        0,
                         "",
-                        0
                     )
                 )
                 if(status > -1){
@@ -155,5 +159,29 @@ class DBActivity : AppCompatActivity() {
         })
         val b = dialogBuilder.create()
         b.show()
+    }
+
+    fun showDatePickerDialog(v: View) {
+
+        val dateSetListener =
+            OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                findViewById<EditText>(R.id.t_date).setText(
+                    year.toString().padStart(4, '0') +
+                            "-" + (monthOfYear + 1).toString().padStart(2, '0') +
+                            "-" + dayOfMonth.toString().padStart(2, '0')
+                )
+            }
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+        val datePickerDialog = DatePickerDialog(
+            this,
+            dateSetListener,
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show();
     }
 }

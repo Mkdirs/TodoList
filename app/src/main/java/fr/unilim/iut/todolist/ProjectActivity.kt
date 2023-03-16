@@ -17,8 +17,8 @@ class ProjectActivity : AppCompatActivity() {
 
         val adapter = TaskListAdapter(this)
         adapter.addAll(
-            Task(0, "Maquettage", resources.getString(R.string.task_status_awaiting), 0),
-            Task(1, "Développement", resources.getString(R.string.task_status_overdue), 0)
+            Task(0, "Maquettage", R.string.task_status_awaiting, ""),
+            Task(1, "Développement", R.string.task_status_overdue, "")
         )
 
         val tasks = findViewById<ListView>(R.id.tasks_list_view)

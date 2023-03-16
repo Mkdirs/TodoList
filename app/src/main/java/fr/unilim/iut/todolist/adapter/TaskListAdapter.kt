@@ -28,7 +28,7 @@ class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context
          */
 
         val checkbox = view.findViewById<CheckBox>(R.id.task_list_item_checkbox)
-        checkbox.isChecked = task?.state == context.getString(R.string.task_status_finished)
+        checkbox.isChecked = task?.state == R.string.task_status_finished
 
         checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             /*
@@ -42,12 +42,12 @@ class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context
 
         view.findViewById<TextView>(R.id.task_list_item_title).text = task?.desc
         view.findViewById<TextView>(R.id.task_list_item_status).also {
-            it.text = task?.state
-            when(task?.state){
-                context.getString(R.string.task_status_finished) -> it.setTextColor(context.resources.getColor(R.color.green, null))
+            it.text = context.getString(task!!.state)
+            when(task.state){
+                R.string.task_status_finished -> it.setTextColor(context.resources.getColor(R.color.green, null))
 
-                context.getString(R.string.task_status_awaiting) -> it.setTextColor(context.resources.getColor(R.color.orange, null))
-                context.getString(R.string.task_status_overdue) -> it.setTextColor(context.resources.getColor(R.color.red, null))
+                R.string.task_status_awaiting -> it.setTextColor(context.resources.getColor(R.color.orange, null))
+                R.string.task_status_overdue -> it.setTextColor(context.resources.getColor(R.color.red, null))
 
             }
         }

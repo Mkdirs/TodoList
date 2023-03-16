@@ -57,12 +57,22 @@
 
             <EditText
                 android:id="@+id/t_date"
-                android:width="200dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
                 android:layout_marginStart="20sp"
-                android:layout_marginLeft="20sp" />
+                android:layout_marginLeft="20sp"
+                android:width="200dp"
+                android:inputType="date"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_marginStart="20sp"
+                android:layout_marginLeft="20sp"
+                android:text="PICK"
+                android:onClick="showDatePickerDialog" />
         </TableRow>
     </TableLayout>
 
