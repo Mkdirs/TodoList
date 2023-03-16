@@ -28,7 +28,7 @@ class DBActivity : AppCompatActivity() {
         val date = findViewById<EditText>(R.id.t_date).text.toString()
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         if(date.trim()!="" && desc.trim()!="" && state.trim()!=""){
-            val status = databaseHandler.addEmployee(
+            val status = databaseHandler.addTask(
                 Task(
                     0,
                     desc.trim(),
@@ -51,7 +51,7 @@ class DBActivity : AppCompatActivity() {
         //creating the instance of DatabaseHandler class
         val databaseHandler: DatabaseHandler= DatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
-        val emp: List<Task> = databaseHandler.viewEmployee()
+        val emp: List<Task> = databaseHandler.viewTasks()
         val empArrayId = Array<String>(emp.size){"0"}
         val empArrayDesc = Array<String>(emp.size){"null"}
         val empArrayState = Array<String>(emp.size){"null"}
@@ -98,7 +98,7 @@ class DBActivity : AppCompatActivity() {
             val databaseHandler: DatabaseHandler= DatabaseHandler(this)
             if(updateId.trim()!="" && updateDesc.trim()!="" && updateState.trim()!="" && updateDate.trim()!=""){
                 //calling the updateEmployee method of DatabaseHandler class to update record
-                val status = databaseHandler.updateEmployee(
+                val status = databaseHandler.updateTask(
                     Task(
                         updateId.toInt(),
                         updateDesc,
@@ -138,7 +138,7 @@ class DBActivity : AppCompatActivity() {
             val databaseHandler: DatabaseHandler= DatabaseHandler(this)
             if(deleteId.trim()!=""){
                 //calling the deleteEmployee method of DatabaseHandler class to delete record
-                val status = databaseHandler.deleteEmployee(
+                val status = databaseHandler.deleteTask(
                     Task(
                         Integer.parseInt(deleteId),
                         "",

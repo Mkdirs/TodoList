@@ -2,22 +2,28 @@ package fr.unilim.iut.todolist.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
+import android.os.Debug
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import fr.unilim.iut.todolist.R
 import fr.unilim.iut.todolist.classes.Task
+import fr.unilim.iut.todolist.handler.DatabaseHandler
+import java.util.*
 
-class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context, R.layout.task_list_item) {
+class TaskListAdapter(private val context:Activity, private val db:DatabaseHandler) : ArrayAdapter<Task>(context, R.layout.task_list_item) {
+
+    var onRequestChange:() -> Unit = {}
+
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
         val view = convertView ?: inflater.inflate(R.layout.task_list_item, null, true)
 
-        val task = getItem(position)
+        val task = getItem(position)!!
+
 
         /*val dropdown = view.findViewById<ImageView>(R.id.task_list_item_dropdown_arrow)
         dropdown.setOnClickListener {
@@ -28,21 +34,53 @@ class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context
          */
 
         val checkbox = view.findViewById<CheckBox>(R.id.task_list_item_checkbox)
-        checkbox.isChecked = task?.state == R.string.task_status_finished
+        checkbox.isChecked = task.state == R.string.task_status_finished
 
+
+        val sf = SimpleDateFormat("dd/MM/yyyy")
         checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            /*
-            TODO: modifier l'état de la tâche
-                - Modifier la tâche sur la base de donnée
-                - Remplacer l'ancienne tâche par la nouvelle
+            val cal = Calendar.getInstance()
+            val currentDate = cal.time
+            val status = when(isChecked){
+                true -> R.string.task_status_finished
+                false -> {
+                    if (task.date.isEmpty())
+                        R.string.task_status_awaiting
+                    else if(currentDate >= sf.parse(task.date)) {
+                        R.string.task_status_overdue
+                    }else
+                        R.string.task_status_awaiting
+                }
+            }
 
-             */
+            db.updateTask(
+                Task(task.id, task.desc, status, task.date)
+            )
+
+            onRequestChange()
+
+
 
         }
 
-        view.findViewById<TextView>(R.id.task_list_item_title).text = task?.desc
+        view.findViewById<TextView>(R.id.task_list_item_title).text = task.desc
         view.findViewById<TextView>(R.id.task_list_item_status).also {
-            it.text = context.getString(task!!.state)
+            val cal = Calendar.getInstance()
+            val currentDate = cal.time
+
+            if(currentDate >= sf.parse(task.date) && task.state == R.string.task_status_awaiting){
+                db.updateTask(
+                    Task(
+                        task.id,
+                        task.desc,
+                        R.string.task_status_overdue,
+                        task.date
+                    )
+                )
+                onRequestChange()
+
+            }
+            it.text = context.getString(task.state)
             when(task.state){
                 R.string.task_status_finished -> it.setTextColor(context.resources.getColor(R.color.green, null))
 
@@ -53,10 +91,11 @@ class TaskListAdapter(private val context:Activity) : ArrayAdapter<Task>(context
         }
 
         view.findViewById<ImageView>(R.id.task_list_item_delete).setOnClickListener {
-            remove(task)
-            //TODO: supprimer la tâche de la BDD
-            notifyDataSetChanged()
+            db.deleteTask(task)
+            onRequestChange()
         }
+
+
 
 
         return view

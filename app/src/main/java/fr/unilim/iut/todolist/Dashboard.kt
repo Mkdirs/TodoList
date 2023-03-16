@@ -3,18 +3,22 @@ package fr.unilim.iut.todolist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
+import fr.unilim.iut.todolist.handler.DatabaseHandler
 import java.util.*
 
 public const val PROJECT_NAME = "PROJECT_NAME"
 class Dashboard : AppCompatActivity() {
+    lateinit var db:DatabaseHandler
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        db = DatabaseHandler(this)
         val listAdaper = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
         listAdaper.add("TodoList")
 
@@ -39,5 +43,9 @@ class Dashboard : AppCompatActivity() {
         buttonDB.setOnClickListener {
             startActivity(intent)
         }
+    }
+
+    fun clear_data(view: View) {
+        Toast.makeText(this, "${db.clearTasks()} lignes affectée(s)", Toast.LENGTH_SHORT).show()
     }
 }

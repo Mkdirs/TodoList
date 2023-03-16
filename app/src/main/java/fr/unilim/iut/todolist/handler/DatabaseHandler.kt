@@ -34,7 +34,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         onCreate(db)
     }
     //method to insert data
-    fun addEmployee(emp: Task):Long{
+    fun addTask(emp: Task):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_DESC, emp.desc)
@@ -46,8 +46,25 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db.close() // Closing database connection
         return success
     }
+
+    fun getTask(id:Int):Task?{
+        val query = "SELECT * FROM $TABLE_TASK WHERE id=$id"
+        val c = readableDatabase.rawQuery(query, null)
+
+        if(!c.moveToFirst())
+            return null
+
+        return Task(
+            c.getInt(c.getColumnIndex(KEY_ID)),
+            c.getString(c.getColumnIndex(KEY_DESC)),
+            c.getInt(c.getColumnIndex(KEY_STATE)),
+            c.getString(c.getColumnIndex(KEY_DATE))
+
+        )
+    }
+
     //method to read data
-    fun viewEmployee():List<Task>{
+    fun viewTasks():List<Task>{
         val empList:ArrayList<Task> = ArrayList<Task>()
         val selectQuery = "SELECT  * FROM $TABLE_TASK"
         val db = this.readableDatabase
@@ -80,7 +97,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         return empList
     }
     //method to update data
-    fun updateEmployee(emp: Task):Int{
+    fun updateTask(emp: Task):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_ID, emp.id)
@@ -94,8 +111,15 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db.close() // Closing database connection
         return success
     }
+
+    fun clearTasks() : Int{
+        val rows = writableDatabase.delete(TABLE_TASK, null, null)
+        writableDatabase.close()
+        return rows
+    }
+
     //method to delete data
-    fun deleteEmployee(emp: Task):Int{
+    fun deleteTask(emp: Task):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_ID, emp.id) // EmpModelClass UserId
