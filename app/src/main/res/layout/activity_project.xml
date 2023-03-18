@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:dividerHeight="10dp"
-        android:divider="@android:color/background_light"/>
+        android:dividerHeight="2dp"
+        android:divider="@android:color/darker_gray"/>
 
     <include
         layout="@layout/add_button"

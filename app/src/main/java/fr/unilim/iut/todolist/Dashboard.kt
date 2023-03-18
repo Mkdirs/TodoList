@@ -1,14 +1,11 @@
 package fr.unilim.iut.todolist
 
 import android.content.Intent
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import fr.unilim.iut.todolist.handler.DatabaseHandler
 import java.util.*
 
@@ -31,7 +28,7 @@ class Dashboard : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val addButtonImgView = findViewById<ImageView>(R.id.add_button_image_view)
+        val addButtonImgView = findViewById<ImageButton>(R.id.add_button_image_view)
         addButtonImgView.setOnClickListener {
             Toast.makeText(this, "TODO: ajout nouveau projet", Toast.LENGTH_SHORT).show()
         }
@@ -45,7 +42,4 @@ class Dashboard : AppCompatActivity() {
         }
     }
 
-    fun clear_data(view: View) {
-        Toast.makeText(this, "${db.clearTasks()} lignes affectée(s)", Toast.LENGTH_SHORT).show()
-    }
 }
