@@ -46,7 +46,7 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
                 false -> {
                     if (task.date.isEmpty())
                         R.string.task_status_awaiting
-                    else if(currentDate >= sf.parse(task.date)) {
+                    else if(task.date.isNotEmpty() && currentDate >= sf.parse(task.date)) {
                         R.string.task_status_overdue
                     }else
                         R.string.task_status_awaiting
@@ -68,7 +68,7 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
             val cal = Calendar.getInstance()
             val currentDate = cal.time
 
-            if(currentDate >= sf.parse(task.date) && task.state == R.string.task_status_awaiting){
+            if(task.date.isNotEmpty() && currentDate >= sf.parse(task.date) && task.state == R.string.task_status_awaiting){
                 db.updateTask(
                     Task(
                         task.id,

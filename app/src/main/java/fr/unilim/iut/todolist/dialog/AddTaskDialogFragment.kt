@@ -49,7 +49,9 @@ class AddTaskDialogFragment : BaseDialog("Nouvelle tâche"), DatePickerDialog.On
                         month,
                         day
                     )
-
+                    datePickerDialog.setOnCancelListener {
+                        checkBox.isChecked = false
+                    }
 
                     datePickerDialog.show()
 
