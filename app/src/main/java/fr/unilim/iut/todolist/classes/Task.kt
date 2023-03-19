@@ -5,4 +5,5 @@ data class Task (
     val desc: String,
     val state: Int,
     val date: String,
+    val project:String
 )

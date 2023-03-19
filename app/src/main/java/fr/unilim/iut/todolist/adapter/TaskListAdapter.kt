@@ -54,7 +54,7 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
             }
 
             db.updateTask(
-                Task(task.id, task.desc, status, task.date)
+                Task(task.id, task.desc, status, task.date, task.project)
             )
 
             onRequestChange()
@@ -63,7 +63,10 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
 
         }
 
-        view.findViewById<TextView>(R.id.task_list_item_title).text = task.desc
+        view.findViewById<TextView>(R.id.task_list_item_title).also {
+            it.text = task.desc
+
+        }
         view.findViewById<TextView>(R.id.task_list_item_status).also {
             val cal = Calendar.getInstance()
             val currentDate = cal.time
@@ -74,7 +77,8 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
                         task.id,
                         task.desc,
                         R.string.task_status_overdue,
-                        task.date
+                        task.date,
+                        task.project
                     )
                 )
                 onRequestChange()

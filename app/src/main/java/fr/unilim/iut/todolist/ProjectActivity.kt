@@ -20,25 +20,26 @@ class ProjectActivity : AppCompatActivity(), BaseDialog.BaseDialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project)
-        actionBar?.title = intent.getStringExtra(PROJECT_NAME)
+        val project = intent.getStringExtra(PROJECT_NAME)!!
+        supportActionBar!!.title = project
 
         db = DatabaseHandler(this)
 
         adapter = TaskListAdapter(this, db)
         adapter.onRequestChange = {
             adapter.clear()
-            adapter.addAll(db.viewTasks())
+            adapter.addAll(db.viewTasks(project))
             adapter.notifyDataSetChanged()
         }
 
-        adapter.addAll(db.viewTasks())
+        adapter.addAll(db.viewTasks(project))
 
         val tasks = findViewById<ListView>(R.id.tasks_list_view)
         tasks.adapter = adapter
 
         val addButtonImgView = findViewById<ImageButton>(R.id.add_button_image_view)
         addButtonImgView.setOnClickListener {
-            val d = AddTaskDialogFragment()
+            val d = AddTaskDialogFragment(project)
             d.show(supportFragmentManager, "add_task")
         }
     }
@@ -46,7 +47,6 @@ class ProjectActivity : AppCompatActivity(), BaseDialog.BaseDialogListener {
     override fun onDialogPositiveClick(dialog:BaseDialog) {
         db.addTask((dialog as AddTaskDialogFragment).task)
         adapter.onRequestChange()
-        //Toast.makeText(this, "TODO: ajout nouvelle tâche", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDialogNegativeClick(dialog:BaseDialog) {

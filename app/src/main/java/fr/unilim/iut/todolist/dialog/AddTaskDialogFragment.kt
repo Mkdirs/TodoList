@@ -20,7 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 
-class AddTaskDialogFragment : BaseDialog("Nouvelle tâche"), DatePickerDialog.OnDateSetListener {
+class AddTaskDialogFragment(val project:String) : BaseDialog("Nouvelle tâche"), DatePickerDialog.OnDateSetListener {
     private lateinit var _task: Task
     private lateinit var dateEditText: EditText
 
@@ -65,7 +65,7 @@ class AddTaskDialogFragment : BaseDialog("Nouvelle tâche"), DatePickerDialog.On
         builder
             .setView(view)
             .setPositiveButton("OK") { dialog, which ->
-                _task = Task(-1, titleEditText.text.toString(), R.string.task_status_awaiting, dateEditText.text.toString())
+                _task = Task(-1, titleEditText.text.toString(), R.string.task_status_awaiting, dateEditText.text.toString(), project)
                 listener.onDialogPositiveClick(this)
             }
             .setNegativeButton("ANNULER"){dialog, i -> listener.onDialogNegativeClick(this)}

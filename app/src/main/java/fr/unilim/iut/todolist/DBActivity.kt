@@ -17,6 +17,7 @@ import fr.unilim.iut.todolist.handler.DatabaseHandler
 
 
 class DBActivity : AppCompatActivity() {
+    val TEST_PROJECT = "test"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_db)
@@ -34,6 +35,7 @@ class DBActivity : AppCompatActivity() {
                     desc.trim(),
                     0,
                     date.trim(),
+                    TEST_PROJECT
                 )
             )
             if(status > -1){
@@ -51,7 +53,7 @@ class DBActivity : AppCompatActivity() {
         //creating the instance of DatabaseHandler class
         val databaseHandler: DatabaseHandler= DatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
-        val emp: List<Task> = databaseHandler.viewTasks()
+        val emp: List<Task> = databaseHandler.viewTasks(TEST_PROJECT)
         val empArrayId = Array<String>(emp.size){"0"}
         val empArrayDesc = Array<String>(emp.size){"null"}
         val empArrayState = Array<String>(emp.size){"null"}
@@ -104,6 +106,7 @@ class DBActivity : AppCompatActivity() {
                         updateDesc,
                         updateState.toInt(),
                         updateDate,
+                        TEST_PROJECT
                     )
                 )
                 if(status > -1){
@@ -144,6 +147,7 @@ class DBActivity : AppCompatActivity() {
                         "",
                         0,
                         "",
+                        TEST_PROJECT
                     )
                 )
                 if(status > -1){
