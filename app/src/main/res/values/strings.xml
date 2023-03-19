@@ -4,4 +4,12 @@
     <string name="task_status_finished">Réalisé</string>
     <string name="task_status_awaiting">A faire</string>
     <string name="task_status_overdue">En retard</string>
+    <string name="task_listing_all">Tous</string>
+
+    <string-array name="task_list_options">
+        <item>@string/task_listing_all</item>
+        <item>@string/task_status_finished</item>
+        <item>@string/task_status_awaiting</item>
+        <item>@string/task_status_overdue</item>
+    </string-array>
 </resources>

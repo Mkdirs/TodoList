@@ -25,14 +25,6 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
         val task = getItem(position)!!
 
 
-        /*val dropdown = view.findViewById<ImageView>(R.id.task_list_item_dropdown_arrow)
-        dropdown.setOnClickListener {
-
-            it.rotation = if(it.rotation == 90f) 0f else 90f
-        }
-
-         */
-
         val checkbox = view.findViewById<CheckBox>(R.id.task_list_item_checkbox)
         checkbox.isChecked = task.state == R.string.task_status_finished
 
