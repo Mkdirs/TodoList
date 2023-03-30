@@ -1,17 +1,16 @@
 package fr.unilim.iut.todolist.adapter
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
-import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.os.Debug
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import fr.unilim.iut.todolist.R
 import fr.unilim.iut.todolist.classes.Task
 import fr.unilim.iut.todolist.handler.DatabaseHandler
-import java.util.*
 
 class TaskListAdapter(private val context:Activity, private val db:DatabaseHandler) : ArrayAdapter<Task>(context, R.layout.task_list_item) {
 
@@ -24,6 +23,8 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
 
         val task = getItem(position)!!
 
+        val desc = view.findViewById<TextView>(R.id.task_list_item_title);
+        desc.text = task.desc;
 
         val checkbox = view.findViewById<CheckBox>(R.id.task_list_item_checkbox)
         checkbox.isChecked = task.state == R.string.task_status_finished
@@ -34,7 +35,19 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
             val cal = Calendar.getInstance()
             val currentDate = cal.time
             val status = when(isChecked){
-                true -> R.string.task_status_finished
+                true -> {
+                    ObjectAnimator.ofFloat(checkbox, "rotation", 0f, 360f).apply {
+                        duration = 1000
+                        start()
+                    }
+
+
+                    ObjectAnimator.ofFloat(view, "scaleY",2f, 1f, 1.5f, 1f).apply {
+                        duration = 500
+                        start()
+                    }
+                    R.string.task_status_finished
+                }
                 false -> {
                     if (task.date.isEmpty())
                         R.string.task_status_awaiting
@@ -55,10 +68,6 @@ class TaskListAdapter(private val context:Activity, private val db:DatabaseHandl
 
         }
 
-        view.findViewById<TextView>(R.id.task_list_item_title).also {
-            it.text = task.desc
-
-        }
         view.findViewById<TextView>(R.id.task_list_item_status).also {
             val cal = Calendar.getInstance()
             val currentDate = cal.time
