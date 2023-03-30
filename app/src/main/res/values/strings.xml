@@ -5,6 +5,7 @@
     <string name="task_status_awaiting">A faire</string>
     <string name="task_status_overdue">En retard</string>
     <string name="task_listing_all">Tous</string>
+    <string name="notification_title_task_overdue">Tâche(s) en retard(s) !</string>
 
     <string-array name="task_list_options">
         <item>@string/task_listing_all</item>

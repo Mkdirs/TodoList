@@ -8,6 +8,7 @@ import android.widget.*
 import fr.unilim.iut.todolist.dialog.AddProjectDialogFragment
 import fr.unilim.iut.todolist.dialog.BaseDialog
 import fr.unilim.iut.todolist.handler.DatabaseHandler
+import fr.unilim.iut.todolist.service.TaskDateWatcher
 
 const val PROJECT_NAME = "PROJECT_NAME"
 class Dashboard : AppCompatActivity(), BaseDialog.BaseDialogListener{
@@ -17,6 +18,9 @@ class Dashboard : AppCompatActivity(), BaseDialog.BaseDialogListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         db = DatabaseHandler(this)
+
+        startService(Intent(this, TaskDateWatcher::class.java))
+
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
 
         adapter.addAll(db.viewProjects().map { it.name })
